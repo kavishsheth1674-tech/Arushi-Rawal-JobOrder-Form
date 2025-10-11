@@ -524,9 +524,13 @@
             });
         }
 
-        // Form submission
+        // Form submission - FIXED VERSION
         document.getElementById('garmentForm').addEventListener('submit', async function(e) {
             e.preventDefault();
+            e.stopPropagation();
+            
+            console.log('=== FORM SUBMISSION STARTED ===');
+            console.log('Webhook URL:', WEBHOOK_URL);
             
             const statusMessage = document.getElementById('statusMessage');
             const submitBtn = document.querySelector('.submit-btn');
@@ -558,6 +562,9 @@
                 });
             });
             
+            console.log('Form data collected:', formData);
+            console.log('Sending POST request to n8n...');
+            
             try {
                 const response = await fetch(WEBHOOK_URL, {
                     method: 'POST',
@@ -567,7 +574,14 @@
                     body: JSON.stringify(formData)
                 });
                 
+                console.log('Response status:', response.status);
+                console.log('Response OK:', response.ok);
+                
+                const responseText = await response.text();
+                console.log('Response body:', responseText);
+                
                 if (response.ok) {
+                    console.log('✅ SUCCESS - Data sent to n8n!');
                     statusMessage.className = 'status-message success';
                     statusMessage.textContent = 'Cost calculation submitted successfully!';
                     statusMessage.style.display = 'block';
@@ -576,17 +590,20 @@
                         location.reload();
                     }, 2000);
                 } else {
-                    throw new Error('Submission failed');
+                    throw new Error(`Server responded with status: ${response.status}`);
                 }
             } catch (error) {
+                console.error('❌ ERROR:', error);
                 statusMessage.className = 'status-message error';
-                statusMessage.textContent = 'Error submitting form. Please check your webhook URL and try again.';
+                statusMessage.textContent = 'Error submitting form: ' + error.message;
                 statusMessage.style.display = 'block';
             } finally {
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'CALCULATE COST';
             }
-        });
+            
+            return false;
+        }, false);
 
         // Initialize the form on page load
         initializeForm();
