@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garment Cost Calculator - Arushi Rawal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #F5F1E8;
+            padding: 40px 20px;
+            line-height: 1.8;
+            color: #2C2C2C;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 0 auto;
+            background-color: #FFFFFF;
+            padding: 60px 50px;
+            border-radius: 2px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+        }
+
+        h1 {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 42px;
+            font-weight: 400;
+            letter-spacing: 3px;
+            margin-bottom: 8px;
+            color: #C9968B;
+            text-align: center;
+            text-transform: uppercase;
+        }
+
+        .subtitle {
+            color: #8B8B8B;
+            margin-bottom: 50px;
+            font-size: 13px;
+            text-align: center;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 300;
+        }
+
+        .form-section {
+            margin-bottom: 45px;
+            padding-bottom: 35px;
+            border-bottom: 1px solid #E8E5DD;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 500;
+            color: #2C2C2C;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+        }
+
+        .material-item {
+            background-color: #FDFCFA;
+            padding: 25px;
+            border-radius: 0;
+            margin-bottom: 20px;
+            position: relative;
+            border: 1px solid #F0EDE5;
+        }
+
+        .material-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #F0EDE5;
+        }
+
+        .item-number {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+            color: #8B8B8B;
+            font-size: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .remove-btn {
+            background-color: transparent;
+            color: #C9968B;
+            border: 1px solid #C9968B;
+            padding: 6px 16px;
+            border-radius: 0;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-weight: 400;
+        }
+
+        .remove-btn:hover {
+            background-color: #C9968B;
+            color: #FFFFFF;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #5C5C5C;
+            font-size: 12px;
+            font-weight: 400;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        select, input[type="number"], input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 1px solid #DDD9CD;
+            border-radius: 0;
+            font-size: 14px;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            background-color: #FFFFFF;
+            color: #2C2C2C;
+        }
+
+        select:focus, input[type="number"]:focus, input[type="text"]:focus {
+            outline: none;
+            border-color: #C9968B;
+            box-shadow: 0 0 0 2px rgba(201, 150, 139, 0.1);
+        }
+
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .add-more-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: transparent;
+            color: #8B8B8B;
+            border: 1px dashed #C9C5BA;
+            border-radius: 0;
+            font-size: 12px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .add-more-btn:hover {
+            background-color: #FDFCFA;
+            border-color: #C9968B;
+            color: #C9968B;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 18px;
+            background-color: #C9968B;
+            color: #FFFFFF;
+            border: none;
+            border-radius: 0;
+            font-size: 13px;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .submit-btn:hover {
+            background-color: #B38577;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 150, 139, 0.3);
+        }
+
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+
+        .submit-btn:disabled {
+            background-color: #D4C4BD;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-message {
+            margin-top: 25px;
+            padding: 16px;
+            border-radius: 0;
+            font-size: 13px;
+            display: none;
+            text-align: center;
+            letter-spacing: 0.5px;
+        }
+
+        .status-message.success {
+            background-color: #E8F5E9;
+            color: #2E7D32;
+            border: 1px solid #A5D6A7;
+        }
+
+        .status-message.error {
+            background-color: #FFEBEE;
+            color: #C62828;
+            border: 1px solid #EF9A9A;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 40px 30px;
+            }
+
+            h1 {
+                font-size: 32px;
+                letter-spacing: 2px;
+            }
+
+            .section-title {
+                font-size: 22px;
+            }
+
+            .material-item {
+                padding: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 20px 10px;
+            }
+
+            .container {
+                padding: 30px 20px;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Arushi Rawal</h1>
+        <p class="subtitle">Job Order Form</p>
+
+        <form id="garmentForm">
+            <!-- Job Order Information -->
+            <div class="form-section">
+                <h2 class="section-title">Job Order Information</h2>
+                <div class="form-group">
+                    <label for="garmentName">Garment Name</label>
+                    <input type="text" id="garmentName" name="garmentName" required>
+                </div>
+                <div class="form-group">
+                    <label for="garmentDescription">Garment Description</label>
+                    <input type="text" id="garmentDescription" name="garmentDescription" required>
+                </div>
+            </div>
+
+            <!-- Fabric Section -->
+            <div class="form-section">
+                <h2 class="section-title">Fabric</h2>
+                <div id="fabricContainer"></div>
+                <button type="button" class="add-more-btn" onclick="addMaterial('fabric')">+ Add Another Fabric</button>
+            </div>
+
+            <!-- Lace Section -->
+            <div class="form-section">
+                <h2 class="section-title">Lace</h2>
+                <div id="laceContainer"></div>
+                <button type="button" class="add-more-btn" onclick="addMaterial('lace')">+ Add Another Lace</button>
+            </div>
+
+            <!-- Fabric Dye Section -->
+            <div class="form-section">
+                <h2 class="section-title">Fabric Dye</h2>
+                <div id="fabricDyeContainer"></div>
+                <button type="button" class="add-more-btn" onclick="addMaterial('fabricDye')">+ Add Another Fabric Dye</button>
+            </div>
+
+            <!-- Lace Dye Section -->
+            <div class="form-section">
+                <h2 class="section-title">Lace Dye</h2>
+                <div id="laceDyeContainer"></div>
+                <button type="button" class="add-more-btn" onclick="addMaterial('laceDye')">+ Add Another Lace Dye</button>
+            </div>
+
+            <!-- Material in Units Section -->
+            <div class="form-section">
+                <h2 class="section-title">Materials</h2>
+                <div id="materialsContainer"></div>
+                <button type="button" class="add-more-btn" onclick="addMaterial('materials')">+ Add Another Material</button>
+            </div>
+
+            <button type="submit" class="submit-btn">Calculate Cost</button>
+        </form>
+
+        <div id="statusMessage" class="status-message"></div>
+    </div>
+
+    <script>
+        // IMPORTANT: Replace this URL with your n8n webhook URL
+        const WEBHOOK_URL = 'https://n8n.srv1046269.hstgr.cloud/webhook/arushi-rawal-job-order';
+
+        // Material options configuration
+        const materialOptions = {
+            fabric: [
+                { value: 'cotton', label: 'Cotton' },
+                { value: 'linen', label: 'Linen' },
+                { value: 'chiffon', label: 'Chiffon' },
+                { value: 'crepe', label: 'Crepe' },
+                { value: 'chanderi', label: 'Chanderi' },
+                { value: 'schiffli-flower', label: 'Schiffli flower' },
+                { value: 'schiffli', label: 'Schiffli' },
+                { value: 'heavy-satin', label: 'Heavy Satin' },
+                { value: 'lining-shantoon', label: 'Lining Shantoon' },
+                { value: 'organza', label: 'Organza' },
+                { value: 'art-organza', label: 'Art Organza' },
+                { value: 'net', label: 'Net' },
+                { value: 'cotton-lining', label: 'Cotton Lining' },
+                { value: 'old-crepe', label: 'Old Crepe' }
+            ],
+            lace: [
+                { value: 'lace-1', label: 'Lace 1' },
+                { value: 'lace-2', label: 'Lace 2' },
+                { value: 'lace-3', label: 'Lace 3' },
+                { value: 'lace-4', label: 'Lace 4' },
+                { value: 'lace-5', label: 'Lace 5' },
+                { value: 'lace-6', label: 'Lace 6' },
+                { value: 'lace-7', label: 'Lace 7' },
+                { value: 'lace-8', label: 'Lace 8' }
+            ],
+            fabricDye: [
+                { value: 'cotton', label: 'Cotton' },
+                { value: 'organza', label: 'Organza' },
+                { value: 'shantoon', label: 'Shantoon' },
+                { value: 'crepe', label: 'Crepe' },
+                { value: 'linen', label: 'Linen' },
+                { value: 'chanderi', label: 'Chanderi' },
+                { value: 'cancan', label: 'Cancan' },
+                { value: 'satin', label: 'Satin' },
+                { value: 'schiffli', label: 'Schiffli' },
+                { value: 'chiffon', label: 'Chiffon' },
+                { value: 'zip', label: 'Zip' }
+            ],
+            laceDye: [
+                { value: 'lace-small', label: 'Lace Small' },
+                { value: 'lace-medium', label: 'Lace Medium' },
+                { value: 'lace-big', label: 'Lace Big' }
+            ],
+            materials: [
+                { value: 'underwire', label: 'Underwire' },
+                { value: 'cups-underwire', label: 'Cups Underwire' },
+                { value: 'half-cups', label: 'Half cups' },
+                { value: 'buttons', label: 'Buttons' },
+                { value: 'pant-zip', label: 'Pant zip' },
+                { value: 'invisible-zip-18', label: 'Invisible zip 18 inch' },
+                { value: 'invisible-zip-24-26', label: 'Invisible zip 24&26 inch' },
+                { value: 'boning-pack', label: 'Boning- pack' },
+                { value: 'openable-zip-18', label: 'Opeanable zip 18inch' },
+                { value: 'openable-zip-30', label: 'Opeanable zip 30inch' },
+                { value: 'elastic-1-inch', label: 'Elastic 1 inch' },
+                { value: 'elastic-1-5-inch', label: 'Elastic 1.5 inch' },
+                { value: 'elastic-quarter-inch', label: 'Elastic 1/4 inch' },
+                { value: 'cancan', label: 'Cancan' },
+                { value: 'sponge-big', label: 'Sponge big' },
+                { value: 'sponge-small', label: 'Sponge small' },
+                { value: 'thread-small', label: 'Thread small' },
+                { value: 'thread-big', label: 'Thread big' },
+                { value: 'kaaj', label: 'Kaaj' },
+                { value: 'bobbin-elastic-white', label: 'Bobbin Elastic white' },
+                { value: 'bobbin-elastic-black', label: 'Bobbin Elastic black' },
+                { value: 'hook-eye-pack', label: 'Hook & eye pack' },
+                { value: 'pearl-pins-pack', label: 'Pearl pins pack' },
+                { value: 'needle-pack', label: 'needle pack' },
+                { value: 'black-fusing', label: 'Black fusing' },
+                { value: 'horsehair-3inch', label: 'Horsehair 3inch' },
+                { value: 'horsehair-2inch', label: 'Horsehair 2inch' },
+                { value: 'canvas-fusing', label: 'Canvas Fusing' },
+                { value: 'muslin', label: 'Muslin' },
+                { value: 'cotton-from-down', label: 'Cotton from down' },
+                { value: 'belt-fusing', label: 'Belt Fusing' },
+                { value: 'hard-canvas', label: 'Hard Canvas' },
+                { value: 'brown-paper', label: 'Brown Paper' }
+            ]
+        };
+
+        // Materials that use meters instead of units
+        const meterMaterials = [
+            'horsehair-3inch',
+            'horsehair-2inch',
+            'canvas-fusing',
+            'muslin',
+            'cotton-from-down',
+            'belt-fusing',
+            'hard-canvas',
+            'brown-paper'
+        ];
+
+        // Counter for unique IDs
+        const counters = {
+            fabric: 0,
+            lace: 0,
+            fabricDye: 0,
+            laceDye: 0,
+            materials: 0
+        };
+
+        // Labels for each material type
+        const materialLabels = {
+            fabric: { type: 'Fabric Type', amount: 'Amount (meters)' },
+            lace: { type: 'Lace Type', amount: 'Amount (meters)' },
+            fabricDye: { type: 'Fabric Dye Type', amount: 'Amount (meters)' },
+            laceDye: { type: 'Lace Dye Type', amount: 'Amount' },
+            materials: { type: 'Material Type', amount: 'Amount (units)' }
+        };
+
+        // Add material function
+        function addMaterial(type) {
+            const container = document.getElementById(`${type}Container`);
+            const id = counters[type]++;
+            const step = '0.01';
+
+            const options = materialOptions[type].map(opt => 
+                `<option value="${opt.value}">${opt.label}</option>`
+            ).join('');
+
+            const itemHTML = `
+                <div class="material-item" data-type="${type}" data-id="${id}">
+                    <div class="material-item-header">
+                        <span class="item-number">${type.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())} #${id + 1}</span>
+                        ${counters[type] > 1 ? `<button type="button" class="remove-btn" onclick="removeMaterial('${type}', ${id})">Remove</button>` : ''}
+                    </div>
+                    <div class="form-group">
+                        <label for="${type}Type${id}">${materialLabels[type].type}</label>
+                        <select id="${type}Type${id}" name="${type}Type${id}" required ${type === 'materials' ? 'onchange="updateMaterialLabel(' + id + ')"' : ''}>
+                            <option value="">Select type</option>
+                            ${options}
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="${type}Amount${id}" id="${type}AmountLabel${id}">${materialLabels[type].amount}</label>
+                        <input type="number" id="${type}Amount${id}" name="${type}Amount${id}" min="0" step="${step}" required>
+                    </div>
+                </div>
+            `;
+
+            container.insertAdjacentHTML('beforeend', itemHTML);
+        }
+
+        // Update material label based on selection
+        function updateMaterialLabel(id) {
+            const selectElement = document.getElementById(`materialsType${id}`);
+            const labelElement = document.getElementById(`materialsAmountLabel${id}`);
+            const selectedValue = selectElement.value;
+            
+            if (meterMaterials.includes(selectedValue)) {
+                labelElement.textContent = 'Amount (meters)';
+            } else {
+                labelElement.textContent = 'Amount (units)';
+            }
+        }
+
+        // Remove material function
+        function removeMaterial(type, id) {
+            const item = document.querySelector(`[data-type="${type}"][data-id="${id}"]`);
+            if (item) {
+                item.remove();
+                updateItemNumbers(type);
+            }
+        }
+
+        // Update item numbers after removal
+        function updateItemNumbers(type) {
+            const items = document.querySelectorAll(`[data-type="${type}"]`);
+            items.forEach((item, index) => {
+                const header = item.querySelector('.item-number');
+                if (header) {
+                    const displayName = type.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                    header.textContent = `${displayName} #${index + 1}`;
+                }
+            });
+        }
+
+        // Initialize form with one of each material
+        function initializeForm() {
+            Object.keys(materialOptions).forEach(type => {
+                addMaterial(type);
+            });
+        }
+
+        // Form submission
+        document.getElementById('garmentForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const statusMessage = document.getElementById('statusMessage');
+            const submitBtn = document.querySelector('.submit-btn');
+            
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'CALCULATING...';
+            
+            // Gather form data
+            const formData = {
+                garmentName: document.getElementById('garmentName').value,
+                garmentDescription: document.getElementById('garmentDescription').value,
+                timestamp: new Date().toISOString()
+            };
+
+            // Collect all materials by type
+            Object.keys(materialOptions).forEach(type => {
+                const items = document.querySelectorAll(`[data-type="${type}"]`);
+                formData[type] = [];
+                
+                items.forEach(item => {
+                    const id = item.dataset.id;
+                    const typeValue = document.getElementById(`${type}Type${id}`).value;
+                    const amountValue = document.getElementById(`${type}Amount${id}`).value;
+                    
+                    formData[type].push({
+                        type: typeValue,
+                        amount: parseFloat(amountValue)
+                    });
+                });
+            });
+            
+            try {
+                const response = await fetch(WEBHOOK_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                if (response.ok) {
+                    statusMessage.className = 'status-message success';
+                    statusMessage.textContent = 'Cost calculation submitted successfully!';
+                    statusMessage.style.display = 'block';
+                    
+                    setTimeout(() => {
+                        location.reload();
+                    }, 2000);
+                } else {
+                    throw new Error('Submission failed');
+                }
+            } catch (error) {
+                statusMessage.className = 'status-message error';
+                statusMessage.textContent = 'Error submitting form. Please check your webhook URL and try again.';
+                statusMessage.style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'CALCULATE COST';
+            }
+        });
+
+        // Initialize the form on page load
+        initializeForm();
+    </script>
+</body>
+</html>
