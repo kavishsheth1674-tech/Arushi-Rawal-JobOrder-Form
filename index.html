@@ -124,6 +124,10 @@
             margin-bottom: 0;
         }
 
+        .form-group.hidden {
+            display: none;
+        }
+
         label {
             display: block;
             margin-bottom: 8px;
@@ -340,6 +344,7 @@
         // Material options configuration
         const materialOptions = {
             fabric: [
+                { value: 'not-used', label: 'Not used' },
                 { value: 'cotton', label: 'Cotton' },
                 { value: 'linen', label: 'Linen' },
                 { value: 'chiffon', label: 'Chiffon' },
@@ -356,6 +361,7 @@
                 { value: 'old-crepe', label: 'Old Crepe' }
             ],
             lace: [
+                { value: 'not-used', label: 'Not used' },
                 { value: 'lace-1', label: 'Lace 1' },
                 { value: 'lace-2', label: 'Lace 2' },
                 { value: 'lace-3', label: 'Lace 3' },
@@ -366,6 +372,7 @@
                 { value: 'lace-8', label: 'Lace 8' }
             ],
             fabricDye: [
+                { value: 'not-used', label: 'Not used' },
                 { value: 'cotton', label: 'Cotton' },
                 { value: 'organza', label: 'Organza' },
                 { value: 'shantoon', label: 'Shantoon' },
@@ -379,11 +386,13 @@
                 { value: 'zip', label: 'Zip' }
             ],
             laceDye: [
+                { value: 'not-used', label: 'Not used' },
                 { value: 'lace-small', label: 'Lace Small' },
                 { value: 'lace-medium', label: 'Lace Medium' },
                 { value: 'lace-big', label: 'Lace Big' }
             ],
             materials: [
+                { value: 'not-used', label: 'Not used' },
                 { value: 'underwire', label: 'Underwire' },
                 { value: 'cups-underwire', label: 'Cups Underwire' },
                 { value: 'half-cups', label: 'Half cups' },
@@ -450,6 +459,28 @@
             materials: { type: 'Material Type', amount: 'Amount (units)' }
         };
 
+        // Handle type selection change
+        function handleTypeChange(type, id) {
+            const selectElement = document.getElementById(`${type}Type${id}`);
+            const amountGroup = document.getElementById(`${type}AmountGroup${id}`);
+            const amountInput = document.getElementById(`${type}Amount${id}`);
+            const selectedValue = selectElement.value;
+            
+            if (selectedValue === 'not-used') {
+                amountGroup.classList.add('hidden');
+                amountInput.removeAttribute('required');
+                amountInput.value = '';
+            } else {
+                amountGroup.classList.remove('hidden');
+                amountInput.setAttribute('required', 'required');
+                
+                // Update label for materials based on selection
+                if (type === 'materials') {
+                    updateMaterialLabel(id);
+                }
+            }
+        }
+
         // Add material function
         function addMaterial(type) {
             const container = document.getElementById(`${type}Container`);
@@ -468,12 +499,12 @@
                     </div>
                     <div class="form-group">
                         <label for="${type}Type${id}">${materialLabels[type].type}</label>
-                        <select id="${type}Type${id}" name="${type}Type${id}" required ${type === 'materials' ? 'onchange="updateMaterialLabel(' + id + ')"' : ''}>
+                        <select id="${type}Type${id}" name="${type}Type${id}" required onchange="handleTypeChange('${type}', ${id})">
                             <option value="">Select type</option>
                             ${options}
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="${type}AmountGroup${id}">
                         <label for="${type}Amount${id}" id="${type}AmountLabel${id}">${materialLabels[type].amount}</label>
                         <input type="number" id="${type}Amount${id}" name="${type}Amount${id}" min="0" step="${step}" required>
                     </div>
@@ -555,10 +586,17 @@
                     const typeValue = document.getElementById(`${type}Type${id}`).value;
                     const amountValue = document.getElementById(`${type}Amount${id}`).value;
                     
-                    formData[type].push({
-                        type: typeValue,
-                        amount: parseFloat(amountValue)
-                    });
+                    if (typeValue === 'not-used') {
+                        formData[type].push({
+                            type: 'not-used',
+                            amount: 0
+                        });
+                    } else {
+                        formData[type].push({
+                            type: typeValue,
+                            amount: parseFloat(amountValue)
+                        });
+                    }
                 });
             });
             
