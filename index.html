@@ -676,15 +676,10 @@
             submitBtn.disabled = true;
             submitBtn.textContent = 'CALCULATING...';
             
-            // Gather form data
+            // Gather form data - START WITH BASIC FIELDS
             const formData = {
                 garmentName: document.getElementById('garmentName').value,
                 garmentDescription: document.getElementById('garmentDescription').value,
-                daysForMaster: parseInt(document.getElementById('daysForMaster').value),
-                daysForTailor: parseInt(document.getElementById('daysForTailor').value),
-                daysForEmbroidery: parseInt(document.getElementById('daysForEmbroidery').value),
-                embroideryMaalCost: parseInt(document.getElementById('embroideryMaalCost').value),
-                miscellaneous: 1550,
                 timestamp: new Date().toISOString()
             };
 
@@ -711,6 +706,13 @@
                     }
                 });
             });
+
+            // ADD THE NEW FIELDS AFTER MATERIALS COLLECTION
+            formData.daysForMaster = parseInt(document.getElementById('daysForMaster').value);
+            formData.daysForTailor = parseInt(document.getElementById('daysForTailor').value);
+            formData.daysForEmbroidery = parseInt(document.getElementById('daysForEmbroidery').value);
+            formData.embroideryMaalCost = parseInt(document.getElementById('embroideryMaalCost').value);
+            formData.miscellaneous = 1550;
             
             console.log('Form data collected:', formData);
             console.log('Sending POST request to n8n...');
