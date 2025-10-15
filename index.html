@@ -166,6 +166,11 @@
             margin: 0;
         }
 
+        input[type="number"]:disabled {
+            background-color: #F5F5F5;
+            cursor: not-allowed;
+        }
+
         .add-more-btn {
             width: 100%;
             padding: 14px;
@@ -310,6 +315,13 @@
                 <button type="button" class="add-more-btn" onclick="addMaterial('lace')">+ Add Another Lace</button>
             </div>
 
+            <!-- Materials Section -->
+            <div class="form-section">
+                <h2 class="section-title">Materials</h2>
+                <div id="materialsContainer"></div>
+                <button type="button" class="add-more-btn" onclick="addMaterial('materials')">+ Add Another Material</button>
+            </div>
+
             <!-- Fabric Dye Section -->
             <div class="form-section">
                 <h2 class="section-title">Fabric Dye</h2>
@@ -324,11 +336,88 @@
                 <button type="button" class="add-more-btn" onclick="addMaterial('laceDye')">+ Add Another Lace Dye</button>
             </div>
 
-            <!-- Material in Units Section -->
+            <!-- Printing Section -->
             <div class="form-section">
-                <h2 class="section-title">Materials</h2>
-                <div id="materialsContainer"></div>
-                <button type="button" class="add-more-btn" onclick="addMaterial('materials')">+ Add Another Material</button>
+                <h2 class="section-title">Printing</h2>
+                <div id="printingContainer"></div>
+                <button type="button" class="add-more-btn" onclick="addMaterial('printing')">+ Add Another Printing</button>
+            </div>
+
+            <!-- No. of Days for Master -->
+            <div class="form-section">
+                <h2 class="section-title">No. of Days for Master</h2>
+                <div class="form-group">
+                    <label for="daysForMaster">Select Number of Days</label>
+                    <select id="daysForMaster" name="daysForMaster" required>
+                        <option value="">Select days</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- No. of Days for Tailor -->
+            <div class="form-section">
+                <h2 class="section-title">No. of Days for Tailor</h2>
+                <div class="form-group">
+                    <label for="daysForTailor">Select Number of Days</label>
+                    <select id="daysForTailor" name="daysForTailor" required>
+                        <option value="">Select days</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- No. of Days for Embroidery -->
+            <div class="form-section">
+                <h2 class="section-title">No. of Days for Embroidery</h2>
+                <div class="form-group">
+                    <label for="daysForEmbroidery">Select Number of Days</label>
+                    <select id="daysForEmbroidery" name="daysForEmbroidery" required>
+                        <option value="">Select days</option>
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                        <option value="6">6</option>
+                        <option value="7">7</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Embroidery Maal Cost -->
+            <div class="form-section">
+                <h2 class="section-title">Embroidery Maal Cost</h2>
+                <div class="form-group">
+                    <label for="embroideryMaalCost">Select Cost</label>
+                    <select id="embroideryMaalCost" name="embroideryMaalCost" required>
+                        <option value="">Select cost</option>
+                        <option value="1000">1000</option>
+                        <option value="1500">1500</option>
+                        <option value="2000">2000</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Miscellaneous -->
+            <div class="form-section">
+                <h2 class="section-title">Miscellaneous</h2>
+                <div class="form-group">
+                    <label for="miscellaneous">Cost</label>
+                    <input type="number" id="miscellaneous" name="miscellaneous" value="1550" readonly disabled>
+                </div>
             </div>
 
             <button type="submit" class="submit-btn">Calculate Cost</button>
@@ -426,6 +515,16 @@
                 { value: 'belt-fusing', label: 'Belt Fusing' },
                 { value: 'hard-canvas', label: 'Hard Canvas' },
                 { value: 'brown-paper', label: 'Brown Paper' }
+            ],
+            printing: [
+                { value: 'not-used', label: 'Not used' },
+                { value: 'cotton', label: 'Cotton' },
+                { value: 'crepe', label: 'Crepe' },
+                { value: 'chanderi', label: 'Chanderi' },
+                { value: 'linen', label: 'Linen' },
+                { value: 'satin', label: 'Satin' },
+                { value: 'chiffon', label: 'Chiffon' },
+                { value: 'organza', label: 'Organza' }
             ]
         };
 
@@ -447,7 +546,8 @@
             lace: 0,
             fabricDye: 0,
             laceDye: 0,
-            materials: 0
+            materials: 0,
+            printing: 0
         };
 
         // Labels for each material type
@@ -456,7 +556,8 @@
             lace: { type: 'Lace Type', amount: 'Amount (meters)' },
             fabricDye: { type: 'Fabric Dye Type', amount: 'Amount (meters)' },
             laceDye: { type: 'Lace Dye Type', amount: 'Amount' },
-            materials: { type: 'Material Type', amount: 'Amount (units)' }
+            materials: { type: 'Material Type', amount: 'Amount (units)' },
+            printing: { type: 'Printing Type', amount: 'Amount (meters)' }
         };
 
         // Handle type selection change
@@ -555,7 +656,7 @@
             });
         }
 
-        // Form submission - FIXED VERSION
+        // Form submission
         document.getElementById('garmentForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             e.stopPropagation();
@@ -573,6 +674,11 @@
             const formData = {
                 garmentName: document.getElementById('garmentName').value,
                 garmentDescription: document.getElementById('garmentDescription').value,
+                daysForMaster: parseInt(document.getElementById('daysForMaster').value),
+                daysForTailor: parseInt(document.getElementById('daysForTailor').value),
+                daysForEmbroidery: parseInt(document.getElementById('daysForEmbroidery').value),
+                embroideryMaalCost: parseInt(document.getElementById('embroideryMaalCost').value),
+                miscellaneous: 1550,
                 timestamp: new Date().toISOString()
             };
 
