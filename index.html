@@ -386,6 +386,7 @@
                     <label for="daysForEmbroidery">Select Number of Days</label>
                     <select id="daysForEmbroidery" name="daysForEmbroidery" required>
                         <option value="">Select days</option>
+                        <option value="not-used">Not used</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
@@ -404,6 +405,7 @@
                     <label for="embroideryMaalCost">Select Cost</label>
                     <select id="embroideryMaalCost" name="embroideryMaalCost" required>
                         <option value="">Select cost</option>
+                        <option value="not-used">Not used</option>
                         <option value="1000">1000</option>
                         <option value="1500">1500</option>
                         <option value="2000">2000</option>
@@ -708,10 +710,13 @@
             });
 
             // ADD THE NEW FIELDS AFTER MATERIALS COLLECTION
+            const daysForEmbroideryValue = document.getElementById('daysForEmbroidery').value;
+            const embroideryMaalCostValue = document.getElementById('embroideryMaalCost').value;
+            
             formData.daysForMaster = parseInt(document.getElementById('daysForMaster').value);
             formData.daysForTailor = parseInt(document.getElementById('daysForTailor').value);
-            formData.daysForEmbroidery = parseInt(document.getElementById('daysForEmbroidery').value);
-            formData.embroideryMaalCost = parseInt(document.getElementById('embroideryMaalCost').value);
+            formData.daysForEmbroidery = daysForEmbroideryValue === 'not-used' ? 'not-used' : parseInt(daysForEmbroideryValue);
+            formData.embroideryMaalCost = embroideryMaalCostValue === 'not-used' ? 'not-used' : parseInt(embroideryMaalCostValue);
             formData.miscellaneous = 1550;
             
             console.log('Form data collected:', formData);
